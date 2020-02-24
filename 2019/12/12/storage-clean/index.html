@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>Mac清内存 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="前几天发现内存老不够用，今天索性清一下。 先点屏幕左上角About this Mac调出存储查询，看看哪个部分占内存最多。如果Document占的多，可以直接通过内置的management进行修改。这里主要介绍Others的清理方法。首先必须明确Others里面都包含哪些内容。    所有的文档，包括 .pdf  .doc  .psd所有的压缩文件和磁盘映像，包括 .zip  .dmg  .iso">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Mac清内存">
+<meta property="og:url" content="http://yoursite.com/2019/12/12/storage-clean/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="前几天发现内存老不够用，今天索性清一下。 先点屏幕左上角About this Mac调出存储查询，看看哪个部分占内存最多。如果Document占的多，可以直接通过内置的management进行修改。这里主要介绍Others的清理方法。首先必须明确Others里面都包含哪些内容。    所有的文档，包括 .pdf  .doc  .psd所有的压缩文件和磁盘映像，包括 .zip  .dmg  .iso">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://raw.githubusercontent.com/bzwwrd/markdownphotos/master/clean1.jpg">
+<meta property="og:image" content="https://raw.githubusercontent.com/bzwwrd/markdownphotos/master/clean2.jpg">
+<meta property="article:published_time" content="2019-12-12T05:00:00.000Z">
+<meta property="article:modified_time" content="2019-12-14T01:36:31.204Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="Mac">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/bzwwrd/markdownphotos/master/clean1.jpg">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-storage-clean" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/12/12/storage-clean/" class="article-date">
+  <time datetime="2019-12-12T05:00:00.000Z" itemprop="datePublished">2019-12-12</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Mac清内存
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>前几天发现内存老不够用，今天索性清一下。</p>
+<p>先点屏幕左上角About this Mac调出存储查询，看看哪个部分占内存最多。如果Document占的多，可以直接通过内置的management进行修改。这里主要介绍Others的清理方法。<br><img src="https://raw.githubusercontent.com/bzwwrd/markdownphotos/master/clean1.jpg" alt="Aaron Swartz"><br>首先必须明确Others里面都包含哪些内容。<br>    所有的文档，包括 .pdf  .doc  .psd所有的压缩文件和磁盘映像，包括 .zip  .dmg  .iso所有的用户数据所有的系统文件，包括 System 文件夹 和 cache 文件夹所有的 Spotlight 不认识的文件，包括 .exe 在内的对 OS X 来说奇奇怪怪的后缀名所有的不是 OS X 标准格式的视频、音频文件所有的应用插件和扩展<br>大概就是各种平时用到的用不到的文件了，怪不得占内存这么多。。</p>
+<p>OK，现在的问题就是清理了，一般来讲真正占内存的文件一般就是那几个最大的，这里把最大的几个文件删除就好了。<br>    首先通过finder的前往（Go）打开库文件夹（Library）    这里需要打开前往菜单的时候按住alt使library显示。<br>    通过Action中sort by按大小排序，就可以找出所有占内存很大的文件了。<br>    <img src="https://raw.githubusercontent.com/bzwwrd/markdownphotos/master/clean2.jpg" alt="Aaron Swartz"><br>    我这里发现前几天下载好多次之后不会用的doker还有android的idea编辑器都占了好多内存。。<br>    果断删掉，于是多了30G内存<br>完成！</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2019/12/12/storage-clean/" data-id="ck6zo7sne0008jcjo1gp6akzf" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Mac/" rel="tag">Mac</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2019/12/13/unrar/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          解压rar
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2019/12/11/huaman-made-of-attributions/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">人是属性的集合</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Mac/" rel="tag">Mac</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/" rel="tag">python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%9D%82/" rel="tag">杂</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Mac/" style="font-size: 20px;">Mac</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/%E6%9D%82/" style="font-size: 15px;">杂</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/02/">February 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/01/">January 2020</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">December 2019</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2020/02/18/python-connnection-wifi-mac/">Mac环境下python连接wifi</a>
+          </li>
+        
+          <li>
+            <a href="/2020/02/18/terminal-open/">终端中打开文件</a>
+          </li>
+        
+          <li>
+            <a href="/2020/01/31/more-language-in-one-script/">单个脚本写入多种语言</a>
+          </li>
+        
+          <li>
+            <a href="/2019/12/13/unrar/">解压rar</a>
+          </li>
+        
+          <li>
+            <a href="/2019/12/12/storage-clean/">Mac清内存</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2020 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>
